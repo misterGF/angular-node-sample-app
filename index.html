@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" ng-app="placester">
+
+<head>
+
+  <title>Mini Placester</title>
+
+  <!-- css area -->
+  <link href="/bower_components/materialize/dist/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+  <!-- scripts area -->
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-route/angular-route.min.js"></script>
+  <script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+  <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="/bower_components/materialize/dist/js/materialize.js"></script>
+  <script src="/js/init.js"></script>
+
+</head>
+
+<body ng-controller="mainController">
+
+  <div class="container">
+
+    <!-- header -->
+    <div class="row valign-wrapper">
+      <img src="/images/logo.png" alt="Placester logo" class="logo" />
+    </div>
+    <div class="row center">
+      <p class="flow-text">The Apple of the real estate industry!</p>
+    </div>
+
+    <!-- sorting options and count info -->
+    <div class="row">
+      <div class="col s12">
+        <div class="col s6">
+          <p>Sorted by {{sortType}}
+            <span ng-if=(!reverse)>(asc)</span>
+            <span ng-if=(reverse)>(desc)</span>
+          </p>
+          <button class="btn white-text" ng-click="sortType='city'; reverse=!reverse">City</button>
+          <button class="btn white-text" ng-click="sortType='price'; reverse=!reverse">Price</button>
+        </div>
+        <div class="col s6">
+          <p class="floatRight">
+            {{startListingNum}} - {{endListingNum}} of {{totalListingNum}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading section while api call is made -->
+    <div class="loading" ng-show="APIcallActive" class="valign">
+      <img class="centerImg" src="/images/loader.gif">
+      <div class="row center">
+        <p class="flow-text">Loading listings</p>
+      </div>
+
+    </div>
+
+    <!-- section for error messages -->
+    <div ng-if="apiError">
+      <div class="card-panel valign-wrapper row">
+        <i class="mdi-alert-error medium col s2 yellow-text text-darken-2"></i>
+        <span class="valign col s10">{{apiErrorMessage}}</h5>
+      </div>
+    </div>
+
+    <!-- Display the cards -->
+    <div class="row" ng-if="listings">
+      <div class="col s12 m4" ng-repeat="listing in listings | orderBy:sortType:reverse | limitTo:defaultLimit : startListingNum">
+        <div class="card">
+          <div class="card-image">
+            <a class="modal-trigger" data-listingID={{listing.index}} ui-sref="place({place:{{listing.index}}})" ng-click="activateModal($event)">
+              <img src="{{listing.image}}" class="responsive-img">
+            </a>
+            <span class="card-title">{{listing.city}}</span>
+          </div>
+          <div class="card-content">
+            <div class="row center">
+              <p class="truncate">{{listing.address}}.</p>
+            </div>
+
+            <div class="row">
+              <div class="col s4">
+                <p class="center">
+                  <img src="/images/dollar.svg" class="iconSize">{{listing.price}}</p>
+              </div>
+              <div class="col s4">
+                <p class="center">
+                  <img src="/images/beds.svg" class="iconSize">{{listing.beds}}</p>
+              </div>
+              <div class="col s4">
+                <p class="center">
+                  <img src="/images/bath.svg" class="iconSize">{{listing.baths}}</p>
+              </div>
+            </div>
+
+          </div>
+          <div class="card-action center">
+            <a class="modal-trigger" data-listingID={{listing.index}} ui-sref="place({place:{{listing.index}}})" ng-click="activateModal($event)">More Details</a>
+          </div>
+        </div>
+        <div id="place-{{listing.index}}" class="modal">
+          <div class="modal-content">
+            <h4>Place details</h4>
+            <pre ng-bind-html="indexData"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Show the pagination -->
+    <ul class="pagination" ng-if="pages" ui-view>
+      <li class="waves-effect {{page.class}}" ng-repeat="page in pages" pages-loaded>
+        <a class="pageLinks" ui-sref="page({page:{{page.num}}})" data-page-num={{page.num}} ng-click="pageThrough($event)">{{page.num}}</a>
+      </li>
+    </ul>
+
+  </div>
+
+</body>
+
+</html>

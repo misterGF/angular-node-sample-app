@@ -1,0 +1,17 @@
+{
+  "name": "miniPlacester",
+  "version": "0.5.0",
+  "description": "Example app that shows how to use placester's API using angularJS and node.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Gil Ferreira",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "bower": "^1.4.1",
+    "express": "^4.12.4",
+    "request": "^2.56.0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "miniPlacester",
+  "version": "0.5.0",
+  "authors": "Gil Ferreira",
+  "description": "Example app that shows how to use placester's API using angularJS and node.",
+  "license": "MIT",
+  "dependencies": {
+    "angularjs": "~1.4.0",
+    "materialize": "~0.96.1",
+    "angular-route": "~1.4.0",
+    "angular-ui-router": "~0.2.15"
+  }
+}

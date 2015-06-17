@@ -1,0 +1,36 @@
+/*
+  Section for custom css for app. Most styling is done with materlize.css
+*/
+.logo {
+  max-height: 8em;
+  display: block;
+  margin: auto;
+  padding-top: 2em;
+}
+
+.centerImg {
+  display: block;
+  margin: auto;
+  padding: 2em;
+}
+
+.iconSize {
+  width: 2em;
+  padding: 0 0 1em 0;
+  display: block;
+  margin: auto;
+}
+
+.floatRight{
+  float: right;
+}
+
+.card .card-image img {
+ max-height: 201px;
+ height: 201px; /* fix for odd shaped images */
+}
+
+.pagination li, .pagination li a {
+
+  width: 60px;
+}
