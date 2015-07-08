@@ -18,7 +18,7 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
         })
         .state('page', {
           url: '/page/:page'
-        })
+        });
     }
   ]
 )
@@ -41,19 +41,19 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
 
     //due to angular digest. let's catch the next round
     $timeout(function() {
-
-      if($scope.params["page"])
+      var selector = null;
+      if($scope.params[page])
       {
-        var selector = "a[data-page-num="+$scope.params.page+"]";
+        selector = "a[data-page-num="+$scope.params.page+"]";
         $(selector).click();
       }
-      else if($scope.params["place"]){
-        var selector = "#place-"+$scope.params.place;
+      else if($scope.params[place]){
+        selector = "#place-"+$scope.params.place;
         $scope.activateModal(null);
       }
     },0);
 
-  })
+  });
 
   $scope.loadPlaces = function(offset)
   {
@@ -67,7 +67,7 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
     //Get listings
     $scope.getListings();
 
-  }
+  };
 
   $scope.getListings = function()
   {
@@ -83,7 +83,7 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
           //Fill in our numbers based on the returned values
           $scope.listingResponseFromApi = data.listings;
           $scope.totalListingNum = data.total;
-          $scope.startListingNum = (data.offset == 0) ? 1 : data.offset;
+          $scope.startListingNum = (data.offset === 0) ? 1 : data.offset;
           $scope.endListingNum = data.offset + $scope.defaultLimit;
           $scope.renderPages();
 
@@ -141,7 +141,7 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
 
       });
 
-  }
+  };
 
   $scope.renderPages = function(pageNum)
   {
@@ -160,7 +160,7 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
     }
 
     $scope.pages = paginationPages;
-  }
+  };
 
   $scope.activateModal = function(event){
 
@@ -172,25 +172,25 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
     //Activate modal
     var selector = "#place-"+$scope.params.place;
     $(selector).openModal();
-  }
+  };
 
   $scope.pageThrough = function(event){
 
     var pageNum = (event.target.dataset.pageNum == 1) ? 0 : event.target.dataset.pageNum;
 
     var startNum = pageNum * $scope.defaultLimit;
-    $scope.startListingNum = (startNum != 0) ? startNum : 1;
+    $scope.startListingNum = (startNum !== 0) ? startNum : 1;
 
     $scope.endListingNum = (startNum + $scope.defaultLimit <= $scope.totalListingNum ) ? startNum + $scope.defaultLimit  : $scope.totalListingNum;
     $scope.renderPages(event.target.dataset.pageNum);
 
-  }
+  };
 
   $scope.changeSort = function(sortBy){
 
     $scope.sortType = sortBy;
 
-  }
+  };
 
   $scope.loadPlaces(); //Call this to start
 
@@ -206,11 +206,11 @@ var placester = angular.module('placester',['ngRoute','ngSanitize','ui.router'])
             {
 
               //Check starting URL after render and push page if applicable.
-              if(window.location.hash.indexOf("#/place") == 0)
+              if(window.location.hash.indexOf("#/place") === 0)
               {
                 //$(newVal).parent().find("a")[0].click(); //generate event by clicking link
               }
-              else if (window.location.hash.indexOf("#/listing") == 0)
+              else if (window.location.hash.indexOf("#/listing") === 0)
               {
                 var listingIndex = window.location.hash.split("-")[1];
                 var selector = "a[data-page-num="+listingIndex+"]";
@@ -233,5 +233,5 @@ placester.filter('startFrom', function() {
     return function(input, start) {
         start =+start; //parse to int
         return input.slice(start);
-    }
+    };
 });

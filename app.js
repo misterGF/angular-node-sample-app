@@ -1,4 +1,6 @@
-"use strict";
+(function(){
+  "use strict";
+}());
 
 var express  = require('express'),
   app = express(), bodyParser = require('body-parser');
@@ -26,7 +28,7 @@ var express  = require('express'),
 
         console.log("Unable to connect to placester. " + error); //log error to the console
         res.send({"error" : "Unable to connect to placester."}); //Send generic error message for display
-
+        console.log("fa");
       }
     });
 
